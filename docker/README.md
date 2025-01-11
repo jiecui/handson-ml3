@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-
 # Hands-on Machine Learning in Docker
 
 This is the Docker configuration which allows you to run and tweak the book's notebooks without installing any dependencies on your machine!<br/>OK, any except `docker` and `docker-compose`.<br />And optionally `make`.<br />And a few more things if you want GPU support (see below for details).
