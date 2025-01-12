@@ -181,4 +181,8 @@ def download_california_image():
     url = HOML3_ROOT+"images/end_to_end_project/"+filename
     urllib.request.urlretrieve(url, os.path.join(imagepath, filename))
 
+# ==========================================================================
+# Chapter 3
+# ==========================================================================
+
 # [EOF]
