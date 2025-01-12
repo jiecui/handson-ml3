@@ -2,7 +2,7 @@
 Library of A Geron, Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow, 3rd Edition
 
 Copyright 2021-2025 Richard J. Cui Created: Mon 01/11/2021  3:21:04.437 PM
-Revision: 0.2  Date: Sat 01/11/2025 19:07:09.989634 PM
+Revision: 0.3  Date: Sun 01/12/2025 10:46:10.016570 AM
 
 Rocky Creek Dr. NE
 Rochester, MN 55906, USA
@@ -13,7 +13,8 @@ Email: richard.jie.cui@gmail.com
 # ==========================================================================
 # Constants
 # ==========================================================================
-DOWNLOAD_ROOT = "https://github.com/ageron/data/raw/main/"
+DOWNLOAD_ROOT_OLD = "http://raw.githubusercontent.com/ageron/handson-ml2/master/" # 2nd Edition
+DOWNLOAD_ROOT = "https://github.com/ageron/data/raw/main/" # 3rd Edition
 
 # ==========================================================================
 # Libraries
@@ -36,6 +37,12 @@ assert sklearn.__version__ >= "0.20"
 # ==========================================================================
 # Global
 # ==========================================================================
+# get image root path
+def get_image_root():
+    '''Get image root path'''
+
+    return os.path.abspath(os.path.join(os.getcwd(), "..", "..", "images"))
+
 # get data root path
 def get_data_root():
     '''Get data root path'''
@@ -44,10 +51,12 @@ def get_data_root():
 
 # Create a function to save the figures.
 def save_fig(fig_id, tight_layout=True, fig_extension="png", resolution=300,
-             images_path='.'):
+             images_folder="images"):
     '''Save the figure'''
 
-    path = os.path.join(images_path, fig_id + "." + fig_extension)
+    images_path = os.path.join(get_image_root(), images_folder)
+    os.makedirs(images_path, exist_ok=True)
+    path = os.path.join(images_path, f"{fig_id}.{fig_extension}")
     print("Saving figure", fig_id)
     if tight_layout:
         plt.tight_layout()
@@ -102,7 +111,6 @@ def download_lifesat():
     datapath = os.path.join(get_data_root(), "lifesat")
     os.makedirs(datapath, exist_ok=True)
 
-    DOWNLOAD_ROOT_OLD = "http://raw.githubusercontent.com/ageron/handson-ml2/master/"
     for filename in ("oecd_bli_2015.csv", "gdp_per_capita.csv"):
         print("Downloading", filename)
         url = DOWNLOAD_ROOT_OLD+"datasets/lifesat/"+filename
