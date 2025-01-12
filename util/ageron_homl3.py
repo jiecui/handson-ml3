@@ -71,6 +71,13 @@ def prepare_country_stats(oecd_bli, gdp_per_capita):
         "GDP per capita", 'Life satisfaction']].iloc[remove_indices]
     return sample_data, missing_data
 
+# Chapter 1: Load life satisfaction data
+def load_lifesat():
+    '''Load life satisfaction data for Chapter 1'''
+
+    data_root=get_data_root()
+    csv_path = os.path.join(data_root, "lifesat", "lifesat.csv")
+    return pd.read_csv(csv_path)
 
 # Chapter 1: Download life satisfaction data
 def download_lifesat(datapath='.'):
@@ -98,8 +105,15 @@ def download_lifesat(datapath='.'):
 # ==========================================================================
 # Chapter 2
 # ==========================================================================
+# Chapter 2: Load California housing data
+def load_housing_data(datapath='.'):
+    '''Load California housing data'''
+
+    csv_path = os.path.join(datapath, "housing.csv")
+    return pd.read_csv(csv_path)
+
 # Chapter 2: Download California housing data
-def fetch_housing_data(datapath='.'):
+def download_housing_data(datapath='.'):
     '''Dowload California housing data'''
 
     DOWNLOAD_ROOT = "https://raw.githubusercontent.com/ageron/handson-ml2/master/"
