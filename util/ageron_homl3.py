@@ -15,6 +15,7 @@ Email: richard.jie.cui@gmail.com
 # ==========================================================================
 DOWNLOAD_ROOT_OLD = "http://raw.githubusercontent.com/ageron/handson-ml2/master/" # 2nd Edition
 DOWNLOAD_ROOT = "https://github.com/ageron/data/raw/main/" # 3rd Edition
+HOML3_ROOT = "https://github.com/ageron/handson-ml3/raw/main/"
 
 # ==========================================================================
 # Libraries
@@ -151,5 +152,33 @@ def download_housing_data():
         housing_tgz.extractall(path=data_root)
     # move the extracted file to the datapath
     shutil.move(tarball_path, datapath)
+
+# Chapter 2: Read California image
+def read_california_image():
+    '''Read California image'''
+
+    image_root = get_image_root()
+    imagepath = os.path.join(image_root, "end_to_end_project")
+    filename = "california.png"
+    image_file = os.path.join(imagepath, filename)
+
+    # download the image if it doesn't exist
+    if not os.path.exists(image_file):
+        download_california_image()
+        
+    return plt.imread(image_file)
+
+# Chapter 2: Download California image
+def download_california_image():
+    '''Download California image'''
+
+    image_root = get_image_root()
+    imagepath = os.path.join(image_root, "end_to_end_project")
+    os.makedirs(imagepath, exist_ok=True)
+    
+    filename = "california.png"
+    print("Downloading", filename)
+    url = HOML3_ROOT+"images/end_to_end_project/"+filename
+    urllib.request.urlretrieve(url, os.path.join(imagepath, filename))
 
 # [EOF]
