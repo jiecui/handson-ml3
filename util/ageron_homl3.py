@@ -89,7 +89,11 @@ def download_lifesat(datapath='.'):
         print("Downloading", filename)
         url = DOWNLOAD_ROOT+"datasets/lifesat/"+filename
         urllib.request.urlretrieve(url, os.path.join(datapath, filename))
-    return DOWNLOAD_ROOT
+
+    filename = 'lifesat.csv'
+    DOWNLOAD_ROOT = "https://github.com/ageron/data/raw/main/"
+    url = DOWNLOAD_ROOT + "lifesat/" + filename
+    urllib.request.urlretrieve(url, os.path.join(datapath, filename))
 
 # ==========================================================================
 # Chapter 2
