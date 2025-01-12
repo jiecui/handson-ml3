@@ -10,10 +10,19 @@ Rochester, MN 55906, USA
 Email: richard.jie.cui@gmail.com
 """
 
+# ==========================================================================
+# Constants
+# ==========================================================================
+DOWNLOAD_ROOT = "https://github.com/ageron/data/raw/main/"
+
+# ==========================================================================
+# Libraries
+# ==========================================================================
 import tarfile
 import sys
 import sklearn
 import os
+import shutil
 import matplotlib.pyplot as plt
 import urllib.request
 import pandas as pd
@@ -80,7 +89,7 @@ def load_lifesat():
     return pd.read_csv(csv_path)
 
 # Chapter 1: Download life satisfaction data
-def download_lifesat(datapath='.'):
+def download_lifesat():
     '''Download life satisfaction data for Chapter 1
 
     We can get fresh data from the OECD's website and save it to
@@ -90,15 +99,17 @@ def download_lifesat(datapath='.'):
     datasets/lifesat/
     '''
 
-    DOWNLOAD_ROOT = "http://raw.githubusercontent.com/ageron/handson-ml2/master/"
+    datapath = os.path.join(get_data_root(), "lifesat")
     os.makedirs(datapath, exist_ok=True)
+
+    DOWNLOAD_ROOT_OLD = "http://raw.githubusercontent.com/ageron/handson-ml2/master/"
     for filename in ("oecd_bli_2015.csv", "gdp_per_capita.csv"):
         print("Downloading", filename)
-        url = DOWNLOAD_ROOT+"datasets/lifesat/"+filename
+        url = DOWNLOAD_ROOT_OLD+"datasets/lifesat/"+filename
         urllib.request.urlretrieve(url, os.path.join(datapath, filename))
 
     filename = 'lifesat.csv'
-    DOWNLOAD_ROOT = "https://github.com/ageron/data/raw/main/"
+    print("Downloading", filename)
     url = DOWNLOAD_ROOT + "lifesat/" + filename
     urllib.request.urlretrieve(url, os.path.join(datapath, filename))
 
@@ -106,27 +117,31 @@ def download_lifesat(datapath='.'):
 # Chapter 2
 # ==========================================================================
 # Chapter 2: Load California housing data
-def load_housing_data(datapath='.'):
+def load_housing_data():
     '''Load California housing data'''
 
-    csv_path = os.path.join(datapath, "housing.csv")
+    data_root = get_data_root()
+    csv_path = os.path.join(data_root, "housing", "housing.csv")
     return pd.read_csv(csv_path)
 
 # Chapter 2: Download California housing data
-def download_housing_data(datapath='.'):
+def download_housing_data():
     '''Dowload California housing data'''
 
-    DOWNLOAD_ROOT = "https://raw.githubusercontent.com/ageron/handson-ml2/master/"
+    data_root = get_data_root()
+    datapath = os.path.join(data_root, "housing")
     os.makedirs(datapath, exist_ok=True)
 
     filename = "housing.tgz"
     print("Downloading", filename)
-    url = DOWNLOAD_ROOT+"datasets/housing/"+filename
-    urllib.request.urlretrieve(url, datapath+filename)
+    tarball_path = os.path.join(data_root, filename)
+    url = DOWNLOAD_ROOT+filename
+    urllib.request.urlretrieve(url, tarball_path)
 
     # decompress the data
-    housing_tgz=tarfile.open(datapath+filename)
-    housing_tgz.extractall(path=datapath)
-    housing_tgz.close()
+    with tarfile.open(tarball_path) as housing_tgz:
+        housing_tgz.extractall(path=data_root)
+    # move the extracted file to the datapath
+    shutil.move(tarball_path, datapath)
 
 # [EOF]
