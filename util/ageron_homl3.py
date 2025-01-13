@@ -28,6 +28,8 @@ import shutil
 import matplotlib.pyplot as plt
 import urllib.request
 import pandas as pd
+import joblib
+from sklearn.datasets import fetch_openml
 
 # check system requirements
 # Python ≥ 3.5 is required
@@ -184,5 +186,33 @@ def download_california_image():
 # ==========================================================================
 # Chapter 3
 # ==========================================================================
+# Chapter 3: Load MNIST data
+def load_mnist_data():
+    '''Load MNIST data'''
 
+    data_root = get_data_root()
+    datapath = os.path.join(data_root, "mnist")
+    filename = "mnist_784"
+    mnist_file = os.path.join(datapath, f"{filename}.joblib")
+
+    # download the data if it doesn't exist
+    if not os.path.exists(mnist_file):
+        download_mnist_data()
+
+    return joblib.load(mnist_file)
+
+# Chapter 3: Download MNIST data
+def download_mnist_data():
+    '''Download MNIST data'''
+
+    data_root = get_data_root()
+    datapath = os.path.join(data_root, "mnist")
+    os.makedirs(datapath, exist_ok=True)
+
+    filename = "mnist_784"
+    print("Downloading", filename)
+    minst_file = os.path.join(datapath, f"{filename}.joblib")
+    mnist = fetch_openml(filename, version=1, as_frame=False, parser='pandas')
+    joblib.dump(mnist, minst_file)
+                               
 # [EOF]
