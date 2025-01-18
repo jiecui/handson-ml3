@@ -44,13 +44,17 @@ assert sklearn.__version__ >= "0.20"
 def get_image_root():
     '''Get image root path'''
 
-    return os.path.abspath(os.path.join(os.getcwd(), "..", "..", "images"))
+    # return os.path.abspath(os.path.join(os.getcwd(), "..", "..", "images"))
+    images_path = os.path.join(os.path.dirname(__file__), "..", "..", "images")
+    return os.path.abspath(images_path)
 
 # get data root path
 def get_data_root():
     '''Get data root path'''
 
-    return os.path.abspath(os.path.join(os.getcwd(), "..", "..", "data"))
+    # return os.path.abspath(os.path.join(os.getcwd(), "..", "..", "data"))
+    data_path = os.path.join(os.path.dirname(__file__), "..", "..", "data")
+    return os.path.abspath(data_path)
 
 # Create a function to save the figures.
 def save_fig(fig_id, tight_layout=True, fig_extension="png", resolution=300,
@@ -152,8 +156,16 @@ def download_housing_data():
     # decompress the data
     with tarfile.open(tarball_path) as housing_tgz:
         housing_tgz.extractall(path=data_root)
-    # move the extracted file to the datapath
-    shutil.move(tarball_path, datapath)
+    # move the extracted file to the datapath, overwrite it if already exists
+    try:
+        destination_file = os.path.join(datapath,filename)
+        if os.path.exists(destination_file):
+            print(f"Removing existing file '{destination_file}'")
+            os.remove(destination_file) 
+        shutil.move(tarball_path, datapath)
+        print(f"File '{tarball_path}' moved successfully to '{datapath}'.")
+    except Exception as e:
+        print(f"Error moving file: {e}")
 
 # Chapter 2: Read California image
 def read_california_image():
