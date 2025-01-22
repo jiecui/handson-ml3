@@ -2,7 +2,7 @@
 Library of A Geron, Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow, 3rd Edition
 
 Copyright 2021-2025 Richard J. Cui Created: Mon 01/11/2021  3:21:04.437 PM
-Revision: 0.4  Date: Tue 01/21/2025 23:14:52.692687 PM
+Revision: 0.5  Date: Wed 01/22/2025 03:26:42.811992 PM
 
 Rocky Creek Dr. NE
 Rochester, MN 55906, USA
@@ -41,13 +41,21 @@ assert sklearn.__version__ >= "0.20"
 # ==========================================================================
 # Global
 # ==========================================================================
+# get model root path
+
+
+def get_model_root():
+    '''Get model root path'''
+
+    models_path = os.path.join(os.path.dirname(__file__), "..", "..", "models")
+    return os.path.abspath(models_path)
+
 # get image root path
 
 
 def get_image_root():
     '''Get image root path'''
 
-    # return os.path.abspath(os.path.join(os.getcwd(), "..", "..", "images"))
     images_path = os.path.join(os.path.dirname(__file__), "..", "..", "images")
     return os.path.abspath(images_path)
 
@@ -57,7 +65,6 @@ def get_image_root():
 def get_data_root():
     '''Get data root path'''
 
-    # return os.path.abspath(os.path.join(os.getcwd(), "..", "..", "data"))
     data_path = os.path.join(os.path.dirname(__file__), "..", "..", "data")
     return os.path.abspath(data_path)
 
