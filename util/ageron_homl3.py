@@ -23,6 +23,7 @@ import os
 import sklearn
 import sys
 import tarfile
+import PIL
 DOWNLOAD_ROOT_OLD = "http://raw.githubusercontent.com/ageron/handson-ml2/master/"  # 2nd Edition
 DOWNLOAD_ROOT = "https://github.com/ageron/data/raw/main/"  # 3rd Edition
 HOML3_ROOT = "https://github.com/ageron/handson-ml3/raw/main/"
@@ -250,5 +251,37 @@ def download_mnist_data():
     minst_file = os.path.join(datapath, f"{filename}.joblib")
     mnist = fetch_openml(filename, version=1, as_frame=False, parser='pandas')
     joblib.dump(mnist, minst_file)
+
+# ==========================================================================
+# Chapter 9
+# ==========================================================================
+
+
+def load_ladybug_image():
+    '''Load ladybug image'''
+
+    image_root = get_image_root()
+    imagepath = os.path.join(image_root, "unsupervised_learning")
+    filename = "ladybug.png"
+    image_file = os.path.join(imagepath, filename)
+
+    # download the image if it doesn't exist
+    if not os.path.exists(image_file):
+        download_ladybug_image()
+
+    return PIL.Image.open(image_file)
+
+
+def download_ladybug_image():
+    '''Download ladybug image'''
+
+    image_root = get_image_root()
+    imagepath = os.path.join(image_root, "unsupervised_learning")
+    os.makedirs(imagepath, exist_ok=True)
+
+    filename = "ladybug.png"
+    print("Downloading", filename)
+    url = HOML3_ROOT+"images/unsupervised_learning/"+filename
+    urllib.request.urlretrieve(url, os.path.join(imagepath, filename))
 
 # [EOF]
